@@ -1,6 +1,7 @@
-package products
+package pl.tjanek.productscatalog.abilities.products
 
-import abilities.HttpRequestAbility
+
+import pl.tjanek.productscatalog.abilities.HttpRequestAbility
 
 trait ProductsHttpRequestAbility extends HttpRequestAbility {
 

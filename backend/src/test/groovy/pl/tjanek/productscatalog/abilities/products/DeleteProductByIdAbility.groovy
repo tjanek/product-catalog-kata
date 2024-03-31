@@ -1,4 +1,4 @@
-package products
+package pl.tjanek.productscatalog.abilities.products
 
 import org.springframework.http.ResponseEntity
 

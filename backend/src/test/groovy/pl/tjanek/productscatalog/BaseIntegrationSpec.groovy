@@ -1,5 +1,5 @@
-import abilities.HttpRequestAbility
-import jakarta.annotation.PostConstruct
+package pl.tjanek.productscatalog
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
@@ -8,7 +8,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.ResponseEntity
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
+import pl.tjanek.productscatalog.abilities.HttpRequestAbility
 import spock.lang.Specification
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -19,11 +19,6 @@ class BaseIntegrationSpec extends Specification implements HttpRequestAbility {
 
     @Autowired
     private TestRestTemplate restTemplate
-
-    @PostConstruct
-    void init() {
-        restTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory())
-    }
 
     ResponseEntity<Map> request(String url, HttpMethod method, Map body = null) {
         def httpHeaders = new HttpHeaders()

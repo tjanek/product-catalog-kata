@@ -1,4 +1,0 @@
-package assertions
-
-class CommonAssertion {
-}
