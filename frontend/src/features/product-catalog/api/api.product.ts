@@ -15,3 +15,8 @@ export const getProducts = async (): Promise<Product[]> => {
         .then((res) => res.data.products);
 }
 
+export const deleteProduct = async (id: string) : Promise<null> => {
+    return await api.delete(`${url}/${id}`)
+        .then(() => null)
+}
+
