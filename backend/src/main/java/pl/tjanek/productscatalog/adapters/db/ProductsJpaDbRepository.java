@@ -20,6 +20,7 @@ import pl.tjanek.productscatalog.domain.ProductsRepository;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -36,7 +37,7 @@ class ProductsJpaDbRepository implements ProductsRepository {
 
     @Override
     public Collection<Product> findAll() {
-        return repository.findAll().stream()
+        return repository.findAllByOrderByNameAsc().stream()
                 .map(ProductsJpaEntity::to)
                 .toList();
     }
@@ -67,6 +68,7 @@ class ProductsJpaDbRepository implements ProductsRepository {
 
 @Repository
 interface ProductsJpaRepository extends JpaRepository<ProductsJpaEntity, String> {
+    List<ProductsJpaEntity> findAllByOrderByNameAsc();
     boolean existsByNameEqualsIgnoreCase(String name);
 }
 
