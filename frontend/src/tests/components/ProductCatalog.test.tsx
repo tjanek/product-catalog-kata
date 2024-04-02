@@ -1,6 +1,6 @@
 import {describe, expect, test, vi} from 'vitest';
 import {render, screen} from '@testing-library/react';
-import {ProductCatalog} from "../index.ts";
+import {ProductCatalog} from "@/features/product-catalog";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -13,6 +13,8 @@ vi.mock("../api/api.product.ts", () => ({
             price: 19.99
         }
     ]),
+    deleteProduct: () => Promise.resolve(),
+    addProduct: () => Promise.resolve()
 }))
 
 describe('ProductCatalog', () => {
