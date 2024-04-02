@@ -14,12 +14,14 @@ import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {useState} from "react";
 import {addProduct} from "../api/api.product.ts";
+import {AddProductType} from "../types/products.ts";
 
 interface NewProductProps {
-    queryKey: string
+    queryKey: string;
+    addProductFn?: AddProductType;
 }
 
-export function NewProduct({ queryKey }: NewProductProps): JSX.Element {
+export function NewProduct({ queryKey, addProductFn }: NewProductProps): JSX.Element {
 
     const [newProductName, setNewProductName] = useState("");
     const [newProductPrice, setNewProductPrice] = useState("");
@@ -27,10 +29,12 @@ export function NewProduct({ queryKey }: NewProductProps): JSX.Element {
 
     const queryClient = useQueryClient();
 
+    addProductFn = addProductFn ?? addProduct;
+
     const { enqueueSnackbar } = useSnackbar();
 
     const { status, mutate } = useMutation({
-        mutationFn: addProduct,
+        mutationFn: addProductFn,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: [queryKey] })
             setNewProductName("")

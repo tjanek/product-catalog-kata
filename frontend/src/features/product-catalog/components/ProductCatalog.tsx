@@ -1,27 +1,37 @@
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {Product} from ".././types/products.ts";
-import {deleteProduct, getProducts} from "../api/api.product.ts"
+import {AddProductType, DeleteProductType, GetProductsType, Product} from ".././types/products.ts";
+import {addProduct, deleteProduct, getProducts} from "../api/api.product.ts"
 import {Button} from "@/components/ui/button.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {useSnackbar} from "notistack";
-import {NewProduct} from "@/features/product-catalog/components/NewProduct.tsx";
+import {NewProduct} from "../components/NewProduct.tsx";
 
-export function ProductCatalog() {
+interface ProductCatalogProps {
+    getProductsFn?: GetProductsType;
+    addProductFn?: AddProductType;
+    deleteProductFn?: DeleteProductType;
+}
+
+export function ProductCatalog({ getProductsFn, addProductFn, deleteProductFn }: ProductCatalogProps): JSX.Element {
 
     const queryClient = useQueryClient();
     const queryKey = "product-catalog";
+
+    getProductsFn = getProductsFn ?? getProducts;
+    addProductFn = addProductFn ?? addProduct;
+    deleteProductFn = deleteProductFn ?? deleteProduct;
 
     const { enqueueSnackbar } = useSnackbar();
 
     const { isLoading, data} = useQuery<Product[], Error>(
         {
             queryKey: [queryKey],
-            queryFn: () => getProducts(),
+            queryFn: () => getProductsFn(),
         })
 
     const mutation = useMutation({
-        mutationFn: deleteProduct,
+        mutationFn: deleteProductFn,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: [queryKey] })
             enqueueSnackbar('Product was removed', {
@@ -43,7 +53,7 @@ export function ProductCatalog() {
             ) : (
                 <>
                     <Table>
-                        <TableCaption><NewProduct queryKey={queryKey} /></TableCaption>
+                        <TableCaption><NewProduct queryKey={queryKey} addProductFn={addProductFn} /></TableCaption>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Name</TableHead>
