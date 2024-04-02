@@ -114,7 +114,7 @@
 				<configuration>
 					<testSourceDirectory>src/test/groovy</testSourceDirectory>
 					<includes>
-						<include>**/*Spec.groovy</include>
+						<include>**/*Spec.class</include>
 					</includes>
 				</configuration>
 				<executions>
