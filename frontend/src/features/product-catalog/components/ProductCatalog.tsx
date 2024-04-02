@@ -4,11 +4,14 @@ import {Product} from ".././types/products.ts";
 import {deleteProduct, getProducts} from "../api/api.product.ts"
 import {Button} from "@/components/ui/button.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
+import {useSnackbar} from "notistack";
 
 export function ProductCatalog() {
 
     const queryClient = useQueryClient();
     const queryKey = "product-catalog";
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const { isLoading, data} = useQuery<Product[], Error>(
         {
@@ -20,6 +23,15 @@ export function ProductCatalog() {
         mutationFn: deleteProduct,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: [queryKey] })
+            enqueueSnackbar('Product was removed', {
+                variant: 'success',
+            });
+        },
+        onError: (error) => {
+            const errorMessage = (error.message ?? 'Unknown error');
+            enqueueSnackbar(`Error while deleting product: ${errorMessage}`, {
+                variant: 'error'
+            })
         }
     })
 
@@ -35,7 +47,7 @@ export function ProductCatalog() {
                             <TableRow>
                                 <TableHead>Name</TableHead>
                                 <TableHead className="text-right">Price</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
+                                <TableHead className="text-right"></TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -44,7 +56,7 @@ export function ProductCatalog() {
                                     <TableRow key={product.id}>
                                         <TableCell >{product.name}</TableCell>
                                         <TableCell className="text-right">{product.price}</TableCell>
-                                        <TableCell><Button variant="destructive" onClick={() => mutation.mutate(product.id)}>Delete</Button></TableCell>
+                                        <TableCell className="text-right"><Button variant="destructive" onClick={() => mutation.mutate(product.id)}>Delete</Button></TableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>

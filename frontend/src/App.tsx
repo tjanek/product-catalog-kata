@@ -1,6 +1,7 @@
 import './App.css'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ProductCatalog} from "@/features/product-catalog";
+import {SnackbarProvider} from "notistack";
 
 function App() {
 
@@ -8,7 +9,9 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-        <ProductCatalog />
+        <SnackbarProvider maxSnack={3}>
+            <ProductCatalog />
+        </SnackbarProvider>
     </QueryClientProvider>
   )
 }
