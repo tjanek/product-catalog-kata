@@ -3,3 +3,8 @@ export interface Product {
     name: string;
     price: number;
 }
+
+export interface NewProduct {
+    name?: string | null;
+    initialPrice?: string | null;
+}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Product} from ".././types/products.ts";
+import {NewProduct, Product} from ".././types/products.ts";
 
 const url = '/v1/products';
 
@@ -9,6 +9,11 @@ const api = axios.create({
         "Content-type": "application/json",
     },
 });
+
+export const addProduct = async (product: NewProduct): Promise<null> => {
+    return await api.post(url, product)
+        .then(() => null);
+}
 
 export const getProducts = async (): Promise<Product[]> => {
     return await api.get(url)

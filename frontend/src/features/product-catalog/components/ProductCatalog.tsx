@@ -5,6 +5,7 @@ import {deleteProduct, getProducts} from "../api/api.product.ts"
 import {Button} from "@/components/ui/button.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {useSnackbar} from "notistack";
+import {NewProduct} from "@/features/product-catalog/components/NewProduct.tsx";
 
 export function ProductCatalog() {
 
@@ -42,7 +43,7 @@ export function ProductCatalog() {
             ) : (
                 <>
                     <Table>
-                        <TableCaption>Product catalog.</TableCaption>
+                        <TableCaption><NewProduct queryKey={queryKey} /></TableCaption>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Name</TableHead>
